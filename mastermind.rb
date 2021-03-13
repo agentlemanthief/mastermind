@@ -21,27 +21,15 @@ class ComputerPlayer
     end
   end
 
-  def code_guess_algorithm(code)
-    12.times do
-      code_guess = [COLORS.sample, COLORS.sample, COLORS.sample, COLORS.sample]
-      puts code_guess
-      if code_guess == code
-        puts 'The computer guessed your code!'
-        @player_code_guessed = true
-      else
-        matches_partials(code, code_guess)
-      end
-    end
-  end
-
   def code_guess_algorithm_advanced(code)
     code_guess = @code_pool[rand(@code_pool.length)]
+    puts "The computers guess is #{code_guess}"
     if code_guess == code
       puts 'The computer guessed your code!'
       @player_code_guessed = true
     else
       matches_partials(code, code_guess, true)
-      puts 'Press enter for next computer guess'
+      puts '\nPress enter for next computer guess'
       gets.chomp
     end
     @code_pool.select! { |c| matches_partials(code, code_guess) == matches_partials(c, code_guess) }
@@ -73,11 +61,12 @@ class HumanPlayer
   end
 
   def player_guess
-    puts 'Enter your code guess, color by color by pressing enter between each one'
+    puts 'Enter your code guess, colour by colour by pressing enter between each one.'
+    puts 'Choose from the following: Red, orange, yellow, green, blue and violet'
     4.times do
       @guess_array.push(gets.chomp)
     end
-    puts "Your guess is #{@guess_array}"
+    puts "\nYour guess is #{@guess_array}"
   end
 
   def clear_guess
@@ -121,7 +110,7 @@ class Game
     12.times do
       return if @computer.player_code_guessed
 
-      puts "Computer has #{i} guesses left"
+      puts "\nComputer has #{i} guesses left\n\n"
       @computer.code_guess_algorithm_advanced(code)
       i -= 1
     end
@@ -132,7 +121,7 @@ class Game
     12.times do
       return if @computer.code_guessed
 
-      puts "#{i} guesses left"
+      puts "\nYou have #{i} guesses left\n\n"
       @player.player_guess
       @computer.code_match(@player.guess_array)
       @player.clear_guess
